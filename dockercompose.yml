@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    image: library-manager:latest
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - library-manager
+      - library-redis
+    networks:
+      - app-network
+
+  library-manager:
+    image: mysql:8
+    container_name: library-manager
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+      MYSQL_DATABASE: library_manager
+    ports:
+      - "3308:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  library-redis:
+    image: redis:7
+    container_name: library-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  db_data:

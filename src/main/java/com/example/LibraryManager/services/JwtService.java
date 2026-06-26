@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,12 @@ import java.util.List;
 
 @Service
 public class JwtService {
-    private final String SECRET = "34da6d851b4491f94a84cc69b6579aa93340cc7552659f52b925b2fcf90753d5";
+    @Value("${JWT_SECRET}")
+    private String SECRET;
+
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
-    //    private final long accessTokenValidity = 1000 * 60 * 15;
-    private final long accessTokenValidity = 30L * 24 * 3600 * 1000;
+    private final long accessTokenValidity = 1000 * 60 * 15;
+    //    private final long accessTokenValidity = 30L * 24 * 3600 * 1000;
     private final long refreshTokenValidity = 30L * 24 * 3600 * 1000;
 
     public String generateAccessToken(Session session) {

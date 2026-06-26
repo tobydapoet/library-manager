@@ -8,15 +8,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class UploadConfig {
-    @Value("ddctz1mh6")
+    @Value("${CLOUD_NAME}")
     private String cloudName;
 
-    @Value("947259646565566")
+    @Value("${API_KEY}")
     private String apiKey;
 
-    @Value("UqUcxeYhxXvzDY8m0c4NqZpjq90")
+    @Value("${API_SECRET}")
     private String apiSecret;
-    
+
     @Bean
     public Cloudinary cloudinary() {
         return new Cloudinary(ObjectUtils.asMap(

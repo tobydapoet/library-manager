@@ -6,7 +6,7 @@ import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.BookCategory;
 import com.example.LibraryManager.entities.Category;
 import com.example.LibraryManager.repositories.BookCategoryRepository;
-import com.example.LibraryManager.requests.bookcategory.BookCategoryRequest;
+import com.example.LibraryManager.dtos.requests.BookCategoryRequest;
 import org.springframework.stereotype.Service;
 
 @Service

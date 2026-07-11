@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import com.example.LibraryManager.entities.Borrowing;
 import com.example.LibraryManager.entities.Penalty;
 import com.example.LibraryManager.repositories.PenaltyRepository;
-import com.example.LibraryManager.requests.penalty.PenaltyCreateRequest;
+import com.example.LibraryManager.dtos.requests.PenaltyCreateRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

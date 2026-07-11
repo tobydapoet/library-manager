@@ -6,8 +6,8 @@ import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.Borrowing;
 import com.example.LibraryManager.entities.Client;
 import com.example.LibraryManager.repositories.BorrowingRepository;
-import com.example.LibraryManager.requests.book.BookUpdateRequest;
-import com.example.LibraryManager.requests.borrowing.BorrowingCreateRequest;
+import com.example.LibraryManager.dtos.requests.BookUpdateRequest;
+import com.example.LibraryManager.dtos.requests.BorrowingCreateRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

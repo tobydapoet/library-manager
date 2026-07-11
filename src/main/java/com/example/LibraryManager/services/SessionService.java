@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import com.example.LibraryManager.entities.Session;
 import com.example.LibraryManager.entities.User;
 import com.example.LibraryManager.repositories.SessionRepository;
-import com.example.LibraryManager.requests.user.UserGoogleCreateRequest;
+import com.example.LibraryManager.dtos.requests.UserGoogleCreateRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

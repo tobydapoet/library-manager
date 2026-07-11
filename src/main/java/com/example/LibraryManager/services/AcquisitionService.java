@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import com.example.LibraryManager.entities.Acquisition;
 import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.repositories.AcquisitionRepository;
-import com.example.LibraryManager.requests.acquisition.AcquisitionCreateRequest;
-import com.example.LibraryManager.requests.book.BookUpdateRequest;
+import com.example.LibraryManager.dtos.requests.AcquisitionCreateRequest;
+import com.example.LibraryManager.dtos.requests.BookUpdateRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

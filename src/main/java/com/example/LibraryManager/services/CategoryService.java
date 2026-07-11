@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Category;
 import com.example.LibraryManager.repositories.CategoryRepository;
-import com.example.LibraryManager.requests.category.CategoryRequest;
+import com.example.LibraryManager.dtos.requests.CategoryRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

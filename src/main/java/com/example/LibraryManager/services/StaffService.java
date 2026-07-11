@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import com.example.LibraryManager.entities.Staff;
 import com.example.LibraryManager.entities.User;
 import com.example.LibraryManager.repositories.StaffRepository;
-import com.example.LibraryManager.requests.staff.StaffCreateRequest;
-import com.example.LibraryManager.requests.staff.StaffUpdateRequest;
+import com.example.LibraryManager.dtos.requests.StaffCreateRequest;
+import com.example.LibraryManager.dtos.requests.StaffUpdateRequest;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 

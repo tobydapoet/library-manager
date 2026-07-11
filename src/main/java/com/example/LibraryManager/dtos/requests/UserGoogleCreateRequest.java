@@ -1,0 +1,21 @@
+package com.example.LibraryManager.dtos.requests;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+@Data
+public class UserGoogleCreateRequest {
+    @Email
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    private String name;
+
+    @NotBlank
+    private String avatar_url;
+
+    @NotBlank
+    private String provided_id;
+}

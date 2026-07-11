@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Client;
 import com.example.LibraryManager.repositories.ClientRepository;
-import com.example.LibraryManager.requests.client.ClientUpdateRequest;
+import com.example.LibraryManager.dtos.requests.ClientUpdateRequest;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;

@@ -2,8 +2,9 @@ package com.example.LibraryManager.controllers;
 
 import lombok.RequiredArgsConstructor;
 
-import com.example.LibraryManager.entities.BillImport;
-import com.example.LibraryManager.requests.bill_import.BillImportRequest;
+import com.example.LibraryManager.dtos.requests.BillImportRequest;
+import com.example.LibraryManager.dtos.responses.BillImportResponse;
+import com.example.LibraryManager.mappers.BillImportMapper;
 import com.example.LibraryManager.services.BillImportService;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,40 +15,41 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BillImportController {
     private final BillImportService billImportService;
+    private final BillImportMapper billImportMapper;
 
     @PreAuthorize("hasRole('STAFF')")
     @GetMapping()
-    public Page<BillImport> findAll(@RequestParam(defaultValue = "0") int page,
+    public Page<BillImportResponse> findAll(@RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "20") int size) {
-        return billImportService.findAll(page, size);
+        return billImportService.findAll(page, size).map(billImportMapper::toResponse);
     }
 
     @PreAuthorize("hasRole('STAFF')")
     @GetMapping("/search")
-    public Page<BillImport> searchBySupplierName(
+    public Page<BillImportResponse> searchBySupplierName(
             @RequestParam String clientName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size
     ) {
-        return billImportService.searchBySupplierName(clientName, page, size);
+        return billImportService.searchBySupplierName(clientName, page, size).map(billImportMapper::toResponse);
     }
 
     @PreAuthorize("hasRole('STAFF')")
     @GetMapping("/{id}")
-    public BillImport findOne(@PathVariable String id) {
-        return billImportService.findById(id);
+    public BillImportResponse findOne(@PathVariable String id) {
+        return billImportMapper.toResponse(billImportService.findById(id));
     }
 
     @PreAuthorize("hasRole('STAFF')")
     @PostMapping()
-    public BillImport create(@RequestBody BillImportRequest req) {
-        return billImportService.create(req);
+    public BillImportResponse create(@RequestBody BillImportRequest req) {
+        return billImportMapper.toResponse(billImportService.create(req));
     }
 
     @PreAuthorize("hasRole('STAFF')")
     @PutMapping("/{id}")
-    public BillImport calculate(@PathVariable String id) {
-        return billImportService.calculateBillImportTotal(id);
+    public BillImportResponse calculate(@PathVariable String id) {
+        return billImportMapper.toResponse(billImportService.calculateBillImportTotal(id));
     }
 
     @PreAuthorize("hasRole('STAFF')")

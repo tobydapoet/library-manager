@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.*;
 import com.example.LibraryManager.repositories.BillRepository;
-import com.example.LibraryManager.requests.bill.BillRequest;
+import com.example.LibraryManager.dtos.requests.BillRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

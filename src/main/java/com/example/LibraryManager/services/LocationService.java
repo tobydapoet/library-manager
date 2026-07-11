@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Location;
 import com.example.LibraryManager.repositories.LocationRepository;
-import com.example.LibraryManager.requests.location.LocationRequest;
+import com.example.LibraryManager.dtos.requests.LocationRequest;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;

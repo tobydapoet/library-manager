@@ -2,8 +2,9 @@ package com.example.LibraryManager.controllers;
 
 import lombok.RequiredArgsConstructor;
 
-import com.example.LibraryManager.entities.Category;
-import com.example.LibraryManager.requests.category.CategoryRequest;
+import com.example.LibraryManager.dtos.requests.CategoryRequest;
+import com.example.LibraryManager.dtos.responses.CategoryResponse;
+import com.example.LibraryManager.mappers.CategoryMapper;
 import com.example.LibraryManager.services.CategoryService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,32 +16,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
 
     @GetMapping()
-    public Iterable<Category> getAllCategories() {
-        return categoryService.findAll();
+    public List<CategoryResponse> getAllCategories() {
+        return categoryMapper.toResponses(categoryService.findAll());
     }
 
     @GetMapping("/book/{id}")
-    public List<Category> findByBookId(@PathVariable String id) {
-        return categoryService.findByBookId(id);
+    public List<CategoryResponse> findByBookId(@PathVariable String id) {
+        return categoryService.findByBookId(id).stream().map(categoryMapper::toResponse).toList();
     }
 
     @GetMapping("/{id}")
-    public Category getCategoryById(@PathVariable Integer id) {
-        return categoryService.findById(id);
+    public CategoryResponse getCategoryById(@PathVariable Integer id) {
+        return categoryMapper.toResponse(categoryService.findById(id));
     }
 
     @PreAuthorize("hasRole('STAFF')")
     @PostMapping()
-    public Category addCategory(@RequestBody CategoryRequest req) {
-        return categoryService.create(req);
+    public CategoryResponse addCategory(@RequestBody CategoryRequest req) {
+        return categoryMapper.toResponse(categoryService.create(req));
     }
 
     @PreAuthorize("hasRole('STAFF')")
     @PatchMapping("/{id}")
-    public Category updateCategory(@PathVariable Integer id, @RequestBody CategoryRequest req) {
-        return categoryService.update(id, req);
+    public CategoryResponse updateCategory(@PathVariable Integer id, @RequestBody CategoryRequest req) {
+        return categoryMapper.toResponse(categoryService.update(id, req));
     }
 
 

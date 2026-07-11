@@ -2,9 +2,10 @@ package com.example.LibraryManager.controllers;
 
 import lombok.RequiredArgsConstructor;
 
-import com.example.LibraryManager.entities.Supplier;
-import com.example.LibraryManager.requests.supplier.SupplierCreateRequest;
-import com.example.LibraryManager.requests.supplier.SupplierUpdateRequest;
+import com.example.LibraryManager.dtos.requests.SupplierCreateRequest;
+import com.example.LibraryManager.dtos.requests.SupplierUpdateRequest;
+import com.example.LibraryManager.dtos.responses.SupplierResponse;
+import com.example.LibraryManager.mappers.SupplierMapper;
 import com.example.LibraryManager.services.SupplierService;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,37 +19,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SupplierController {
     private final SupplierService supplierService;
+    private final SupplierMapper supplierMapper;
 
     @GetMapping()
-    public Iterable<Supplier> findAll() {
-        return supplierService.findAll();
+    public List<SupplierResponse> findAll() {
+        return supplierMapper.toResponses(supplierService.findAll());
     }
 
     @GetMapping("/search")
-    public List<Supplier> findByName(@RequestParam("name") String name) {
-        return supplierService.findByName(name);
+    public List<SupplierResponse> findByName(@RequestParam("name") String name) {
+        return supplierService.findByName(name).stream().map(supplierMapper::toResponse).toList();
     }
 
     @GetMapping("{id}")
-    public Supplier findById(@PathVariable String id) {
-        return supplierService.findById(id);
+    public SupplierResponse findById(@PathVariable String id) {
+        return supplierMapper.toResponse(supplierService.findById(id));
     }
 
     @PostMapping()
     @PreAuthorize("hasAnyAuthority('POSITION_LIBRARIAN','POSITION_ADMIN')")
-    public Supplier create(@RequestBody @Valid() SupplierCreateRequest req) {
-        return supplierService.create(req);
+    public SupplierResponse create(@RequestBody @Valid() SupplierCreateRequest req) {
+        return supplierMapper.toResponse(supplierService.create(req));
     }
 
     @PreAuthorize("hasAnyAuthority('POSITION_LIBRARIAN','POSITION_ADMIN')")
     @PatchMapping("{id}")
-    public Supplier update(@PathVariable String id, @RequestBody @Valid() SupplierUpdateRequest req) {
-        return supplierService.update(id, req);
+    public SupplierResponse update(@PathVariable String id, @RequestBody @Valid() SupplierUpdateRequest req) {
+        return supplierMapper.toResponse(supplierService.update(id, req));
     }
 
     @PreAuthorize("hasAnyAuthority('POSITION_LIBRARIAN','POSITION_ADMIN')")
     @PutMapping("{id}")
-    public Supplier delete(@PathVariable String id) {
-        return supplierService.softDelete(id);
+    public SupplierResponse delete(@PathVariable String id) {
+        return supplierMapper.toResponse(supplierService.softDelete(id));
     }
 }

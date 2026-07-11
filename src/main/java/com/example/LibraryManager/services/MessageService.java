@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import com.example.LibraryManager.entities.Message;
 import com.example.LibraryManager.entities.User;
 import com.example.LibraryManager.repositories.MessageRepository;
-import com.example.LibraryManager.requests.message.CreateMessageRequest;
+import com.example.LibraryManager.dtos.requests.CreateMessageRequest;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;

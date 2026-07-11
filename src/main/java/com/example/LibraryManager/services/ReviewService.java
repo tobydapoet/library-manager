@@ -6,7 +6,7 @@ import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.Client;
 import com.example.LibraryManager.entities.Review;
 import com.example.LibraryManager.repositories.ReviewRepository;
-import com.example.LibraryManager.requests.review.ReviewCreateRequest;
+import com.example.LibraryManager.dtos.requests.ReviewCreateRequest;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;

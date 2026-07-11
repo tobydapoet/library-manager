@@ -1,10 +1,9 @@
 package com.example.LibraryManager.config;
 
-import lombok.RequiredArgsConstructor;
-
-import com.example.LibraryManager.filter.JwtFilter;
-import com.example.LibraryManager.handler.OauthHandler;
+import com.example.LibraryManager.filters.JwtFilter;
+import com.example.LibraryManager.handlers.OauthHandler;
 import com.example.LibraryManager.services.SessionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;

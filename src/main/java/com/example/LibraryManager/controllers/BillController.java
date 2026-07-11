@@ -2,8 +2,9 @@ package com.example.LibraryManager.controllers;
 
 import lombok.RequiredArgsConstructor;
 
-import com.example.LibraryManager.entities.Bill;
-import com.example.LibraryManager.requests.bill.BillRequest;
+import com.example.LibraryManager.dtos.requests.BillRequest;
+import com.example.LibraryManager.dtos.responses.BillResponse;
+import com.example.LibraryManager.mappers.BillMapper;
 import com.example.LibraryManager.services.BillService;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,43 +15,44 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BillController {
     private final BillService billService;
+    private final BillMapper billMapper;
 
     @PreAuthorize("hasRole('STAFF')")
     @GetMapping()
-    public Page<Bill> findAll(@RequestParam(defaultValue = "0") int page,
+    public Page<BillResponse> findAll(@RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "20") int size) {
-        return billService.findAll(page, size);
+        return billService.findAll(page, size).map(billMapper::toResponse);
     }
 
     @GetMapping("/client/{id}")
-    public Page<Bill> findAllByClientId(@PathVariable String id,
+    public Page<BillResponse> findAllByClientId(@PathVariable String id,
                                         @RequestParam(defaultValue = "0") int page,
                                         @RequestParam(defaultValue = "20") int size) {
-        return billService.findByClient(id, page, size);
+        return billService.findByClient(id, page, size).map(billMapper::toResponse);
     }
 
     @GetMapping("/{id}")
-    public Bill findOne(@PathVariable String id) {
-        return billService.findById(id);
+    public BillResponse findOne(@PathVariable String id) {
+        return billMapper.toResponse(billService.findById(id));
     }
 
     @GetMapping("/search")
-    public Page<Bill> searchByClientName(
+    public Page<BillResponse> searchByClientName(
             @RequestParam String clientName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size
     ) {
-        return billService.searchByClientName(clientName, page, size);
+        return billService.searchByClientName(clientName, page, size).map(billMapper::toResponse);
     }
 
     @PostMapping()
-    public Bill create(@RequestBody BillRequest req) {
-        return billService.create(req);
+    public BillResponse create(@RequestBody BillRequest req) {
+        return billMapper.toResponse(billService.create(req));
     }
 
     @PutMapping("/{id}")
-    public Bill calculate(@PathVariable String id) {
-        return billService.calculateBillTotal(id);
+    public BillResponse calculate(@PathVariable String id) {
+        return billMapper.toResponse(billService.calculateBillTotal(id));
     }
 
     @PreAuthorize("hasRole('STAFF')")

@@ -6,7 +6,7 @@ import com.example.LibraryManager.entities.BillImport;
 import com.example.LibraryManager.entities.Purchase;
 import com.example.LibraryManager.entities.Supplier;
 import com.example.LibraryManager.repositories.BillImportRepository;
-import com.example.LibraryManager.requests.bill_import.BillImportRequest;
+import com.example.LibraryManager.dtos.requests.BillImportRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

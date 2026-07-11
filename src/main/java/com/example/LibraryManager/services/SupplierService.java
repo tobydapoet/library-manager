@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Supplier;
 import com.example.LibraryManager.repositories.SupplierRepository;
-import com.example.LibraryManager.requests.supplier.SupplierCreateRequest;
-import com.example.LibraryManager.requests.supplier.SupplierUpdateRequest;
+import com.example.LibraryManager.dtos.requests.SupplierCreateRequest;
+import com.example.LibraryManager.dtos.requests.SupplierUpdateRequest;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

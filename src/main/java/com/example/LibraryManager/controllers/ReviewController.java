@@ -1,17 +1,18 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Review;
 import com.example.LibraryManager.requests.review.ReviewCreateRequest;
 import com.example.LibraryManager.services.ReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("review")
+@RequiredArgsConstructor
 public class ReviewController {
-    @Autowired
-    private ReviewService reviewService;
+    private final ReviewService reviewService;
 
     @GetMapping("/book")
     public Page<Review> findByBookId(

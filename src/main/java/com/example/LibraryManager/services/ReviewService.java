@@ -1,11 +1,12 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.Client;
 import com.example.LibraryManager.entities.Review;
 import com.example.LibraryManager.repositories.ReviewRepository;
 import com.example.LibraryManager.requests.review.ReviewCreateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -14,15 +15,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ReviewService {
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
 
     @Cacheable(value = "uploadCache", key = "'review:' + #bookId")
     public Page<Review> findByBookId(String bookId, Integer page, Integer size) {

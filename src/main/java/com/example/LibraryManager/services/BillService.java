@@ -1,9 +1,10 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.*;
 import com.example.LibraryManager.repositories.BillRepository;
 import com.example.LibraryManager.requests.bill.BillRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,12 +12,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BillService {
-    @Autowired
-    private BillRepository billRepository;
+    private final BillRepository billRepository;
 
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
 
     public Bill findById(String id) {
         return billRepository.findById(id)

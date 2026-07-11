@@ -1,10 +1,11 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Message;
 import com.example.LibraryManager.entities.User;
 import com.example.LibraryManager.repositories.MessageRepository;
 import com.example.LibraryManager.requests.message.CreateMessageRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -13,12 +14,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MessageService {
-    @Autowired
-    private MessageRepository messageRepository;
+    private final MessageRepository messageRepository;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     public Message findById(String id) {
         return messageRepository.findById(id)

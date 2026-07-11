@@ -1,9 +1,10 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Session;
 import com.example.LibraryManager.requests.session.LoginRequest;
 import com.example.LibraryManager.services.SessionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/session")
+@RequiredArgsConstructor
 public class SessionController {
 
-    @Autowired
-    private SessionService sessionService;
+    private final SessionService sessionService;
 
     @GetMapping("/{id}")
     public Session findById(@PathVariable String id) {

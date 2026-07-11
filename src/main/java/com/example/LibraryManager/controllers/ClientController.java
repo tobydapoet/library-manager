@@ -1,18 +1,19 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Client;
 import com.example.LibraryManager.requests.client.ClientUpdateRequest;
 import com.example.LibraryManager.services.ClientService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/client")
+@RequiredArgsConstructor
 public class ClientController {
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
 
     @PreAuthorize("hasRole('STAFF')")
     @GetMapping("/search")

@@ -1,18 +1,19 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Staff;
 import com.example.LibraryManager.requests.staff.StaffUpdateRequest;
 import com.example.LibraryManager.services.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/staff")
+@RequiredArgsConstructor
 public class StaffController {
-    @Autowired
-    private StaffService staffService;
+    private final StaffService staffService;
 
     @PreAuthorize("hasAuthority('POSITION_ADMIN')")
     @GetMapping("/search")

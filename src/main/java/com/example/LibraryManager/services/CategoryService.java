@@ -1,17 +1,18 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Category;
 import com.example.LibraryManager.repositories.CategoryRepository;
 import com.example.LibraryManager.requests.category.CategoryRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public Iterable<Category> findAll() {
         return categoryRepository.findAll();

@@ -1,18 +1,19 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Location;
 import com.example.LibraryManager.repositories.LocationRepository;
 import com.example.LibraryManager.requests.location.LocationRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class LocationService {
-    @Autowired
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
     @Cacheable(value = "uploadCache", key = "'location:all'")
     public Iterable<Location> findAll() {

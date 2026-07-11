@@ -1,11 +1,12 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.Location;
 import com.example.LibraryManager.repositories.BookRepository;
 import com.example.LibraryManager.requests.book.BookCreateRequest;
 import com.example.LibraryManager.requests.book.BookUpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -16,15 +17,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@RequiredArgsConstructor
 public class BookService {
-    @Autowired
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
-    @Autowired
-    private UploadService uploadService;
+    private final UploadService uploadService;
 
-    @Autowired
-    private LocationService locationService;
+    private final LocationService locationService;
 
     @Cacheable(value = "uploadCache", key = "'book:all'")
     public Page<Book> findAll(int page, int size) {

@@ -1,9 +1,10 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Category;
 import com.example.LibraryManager.requests.category.CategoryRequest;
 import com.example.LibraryManager.services.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +12,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/category")
+@RequiredArgsConstructor
 public class CategoryController {
-    @Autowired
-    CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping()
     public Iterable<Category> getAllCategories() {

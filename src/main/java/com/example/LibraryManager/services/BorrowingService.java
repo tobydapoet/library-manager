@@ -1,29 +1,27 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.Borrowing;
 import com.example.LibraryManager.entities.Client;
 import com.example.LibraryManager.repositories.BorrowingRepository;
 import com.example.LibraryManager.requests.book.BookUpdateRequest;
 import com.example.LibraryManager.requests.borrowing.BorrowingCreateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BorrowingService {
-    @Autowired
-    private BorrowingRepository borrowingRepository;
+    private final BorrowingRepository borrowingRepository;
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
 
-    @Autowired
-    private BillService billService;
+    private final BillService billService;
 
     public Borrowing findById(String id) {
         return borrowingRepository.findById(id)

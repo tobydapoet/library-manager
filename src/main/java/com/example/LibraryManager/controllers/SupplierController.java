@@ -1,11 +1,12 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Supplier;
 import com.example.LibraryManager.requests.supplier.SupplierCreateRequest;
 import com.example.LibraryManager.requests.supplier.SupplierUpdateRequest;
 import com.example.LibraryManager.services.SupplierService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +15,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/supplier")
 @PreAuthorize("hasRole('STAFF')")
+@RequiredArgsConstructor
 public class SupplierController {
-    @Autowired
-    private SupplierService supplierService;
+    private final SupplierService supplierService;
 
     @GetMapping()
     public Iterable<Supplier> findAll() {

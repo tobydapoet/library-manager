@@ -1,21 +1,21 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Staff;
 import com.example.LibraryManager.entities.User;
 import com.example.LibraryManager.repositories.StaffRepository;
 import com.example.LibraryManager.requests.staff.StaffCreateRequest;
 import com.example.LibraryManager.requests.staff.StaffUpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class StaffService {
-    @Autowired
-    private StaffRepository staffRepository;
+    private final StaffRepository staffRepository;
 
-    @Autowired
-    private UploadService uploadService;
+    private final UploadService uploadService;
 
     public Staff getStaff(String id) {
         return staffRepository.findById(id)

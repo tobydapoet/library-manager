@@ -1,11 +1,12 @@
 package com.example.LibraryManager.handler;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.requests.user.UserGoogleCreateRequest;
 import com.example.LibraryManager.services.SessionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -16,13 +17,12 @@ import java.io.IOException;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class OauthHandler implements AuthenticationSuccessHandler {
-    @Autowired
     @Lazy
-    private SessionService sessionService;
+    private final SessionService sessionService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse res, Authentication auth) throws IOException {

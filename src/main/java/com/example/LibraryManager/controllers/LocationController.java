@@ -1,17 +1,18 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Location;
 import com.example.LibraryManager.requests.location.LocationRequest;
 import com.example.LibraryManager.services.LocationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/location")
+@RequiredArgsConstructor
 public class LocationController {
-    @Autowired
-    LocationService locationService;
+    private final LocationService locationService;
 
     @GetMapping()
     public Iterable<Location> findAll() {

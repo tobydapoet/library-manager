@@ -1,27 +1,25 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Borrowing;
 import com.example.LibraryManager.entities.Penalty;
 import com.example.LibraryManager.repositories.PenaltyRepository;
 import com.example.LibraryManager.requests.penalty.PenaltyCreateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PenaltyService {
-    @Autowired
-    private PenaltyRepository penaltyRepository;
+    private final PenaltyRepository penaltyRepository;
 
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
 
-    @Autowired
-    private BorrowingService borrowingService;
+    private final BorrowingService borrowingService;
 
-    @Autowired
-    private BillService billService;
+    private final BillService billService;
 
     public List<Penalty> findByBillId(String billId) {
         return penaltyRepository.findByBill_Id(billId);

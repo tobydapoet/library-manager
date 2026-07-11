@@ -1,9 +1,10 @@
 package com.example.LibraryManager.config;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.filter.JwtFilter;
 import com.example.LibraryManager.handler.OauthHandler;
 import com.example.LibraryManager.services.SessionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -19,17 +20,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class AuthConfig {
 
-    @Autowired
-    private JwtFilter jwtFilter;
+    private final JwtFilter jwtFilter;
 
-    @Autowired
     @Lazy
-    private SessionService sessionService;
+    private final SessionService sessionService;
 
-    @Autowired
-    private OauthHandler oauthHandler;
+    private final OauthHandler oauthHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

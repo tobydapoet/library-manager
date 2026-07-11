@@ -1,18 +1,19 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.BillImport;
 import com.example.LibraryManager.requests.bill_import.BillImportRequest;
 import com.example.LibraryManager.services.BillImportService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("bill_import")
+@RequiredArgsConstructor
 public class BillImportController {
-    @Autowired
-    private BillImportService billImportService;
+    private final BillImportService billImportService;
 
     @PreAuthorize("hasRole('STAFF')")
     @GetMapping()

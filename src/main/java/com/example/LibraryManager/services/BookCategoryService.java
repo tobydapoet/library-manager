@@ -1,23 +1,22 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.BookCategory;
 import com.example.LibraryManager.entities.Category;
 import com.example.LibraryManager.repositories.BookCategoryRepository;
 import com.example.LibraryManager.requests.bookcategory.BookCategoryRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BookCategoryService {
-    @Autowired
-    private BookCategoryRepository bookCategoryRepository;
+    private final BookCategoryRepository bookCategoryRepository;
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     public BookCategory create(BookCategoryRequest req) {
         BookCategory bookCategory = new BookCategory();

@@ -1,18 +1,19 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Acquisition;
 import com.example.LibraryManager.requests.acquisition.AcquisitionCreateRequest;
 import com.example.LibraryManager.services.AcquisitionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/acquisition")
+@RequiredArgsConstructor
 public class AcquisitionController {
-    @Autowired
-    private AcquisitionService acquisitionService;
+    private final AcquisitionService acquisitionService;
 
     @GetMapping("/bill/{id}")
     public List<Acquisition> findByBillId(@PathVariable String id) {

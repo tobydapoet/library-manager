@@ -1,9 +1,10 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Message;
 import com.example.LibraryManager.requests.message.CreateMessageRequest;
 import com.example.LibraryManager.services.MessageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/message")
+@RequiredArgsConstructor
 public class MessageController {
-    @Autowired
-    private MessageService messageService;
+    private final MessageService messageService;
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-    
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
     @MessageMapping("/send")
     public void sendMessage(CreateMessageRequest req) {
         Message saved = messageService.create(req);

@@ -1,10 +1,11 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Supplier;
 import com.example.LibraryManager.repositories.SupplierRepository;
 import com.example.LibraryManager.requests.supplier.SupplierCreateRequest;
 import com.example.LibraryManager.requests.supplier.SupplierUpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SupplierService {
-    @Autowired
-    private SupplierRepository supplierRepository;
+    private final SupplierRepository supplierRepository;
 
     @Cacheable(value = "uploadCache", key = "'supplier:all'")
     public Iterable<Supplier> findAll() {

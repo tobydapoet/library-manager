@@ -1,9 +1,10 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Purchase;
 import com.example.LibraryManager.requests.purchase.PurchaseCreateRequest;
 import com.example.LibraryManager.services.PurchaseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +12,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/purchase")
+@RequiredArgsConstructor
 public class PurchaseController {
-    @Autowired
-    private PurchaseService purchaseService;
+    private final PurchaseService purchaseService;
 
     @PreAuthorize("hasAnyAuthority('LIBRARIAN','ADMIN')")
     @GetMapping("/bill/{id}")

@@ -1,28 +1,26 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Acquisition;
 import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.repositories.AcquisitionRepository;
 import com.example.LibraryManager.requests.acquisition.AcquisitionCreateRequest;
 import com.example.LibraryManager.requests.book.BookUpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AcquisitionService {
-    @Autowired
-    private AcquisitionRepository acquisitionRepository;
+    private final AcquisitionRepository acquisitionRepository;
 
-    @Autowired
-    BookService bookService;
+    private final BookService bookService;
 
-    @Autowired
-    ClientService clientService;
+    private final ClientService clientService;
 
-    @Autowired
-    private BillService billService;
+    private final BillService billService;
 
 
     public List<Acquisition> findByBillId(String billId) {

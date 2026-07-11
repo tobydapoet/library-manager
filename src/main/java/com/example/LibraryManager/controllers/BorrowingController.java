@@ -1,18 +1,19 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Borrowing;
 import com.example.LibraryManager.requests.borrowing.BorrowingCreateRequest;
 import com.example.LibraryManager.services.BorrowingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/borrowing")
+@RequiredArgsConstructor
 public class BorrowingController {
-    @Autowired
-    private BorrowingService borrowingService;
+    private final BorrowingService borrowingService;
 
     @GetMapping("/bill/{id}")
     public List<Borrowing> findByBillId(@PathVariable String id) {

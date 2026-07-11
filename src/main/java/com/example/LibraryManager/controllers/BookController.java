@@ -1,10 +1,11 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.requests.book.BookCreateRequest;
 import com.example.LibraryManager.requests.book.BookUpdateRequest;
 import com.example.LibraryManager.services.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("book")
+@RequiredArgsConstructor
 public class BookController {
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
     @GetMapping()
     public Page<Book> getBooks(

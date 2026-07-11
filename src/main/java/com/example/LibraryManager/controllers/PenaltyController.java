@@ -1,18 +1,19 @@
 package com.example.LibraryManager.controllers;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Penalty;
 import com.example.LibraryManager.requests.penalty.PenaltyCreateRequest;
 import com.example.LibraryManager.services.PenaltyService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/penalty")
+@RequiredArgsConstructor
 public class PenaltyController {
-    @Autowired
-    private PenaltyService penaltyService;
+    private final PenaltyService penaltyService;
 
     @GetMapping("/bill/{id}")
     public List<Penalty> findByBillId(@PathVariable String id) {

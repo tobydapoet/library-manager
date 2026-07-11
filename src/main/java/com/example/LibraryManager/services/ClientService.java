@@ -1,10 +1,11 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 
 import com.example.LibraryManager.entities.Client;
 import com.example.LibraryManager.repositories.ClientRepository;
 import com.example.LibraryManager.requests.client.ClientUpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -13,12 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService {
-    @Autowired
-    ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
-    @Autowired
-    UploadService uploadService;
+    private final UploadService uploadService;
 
     @Cacheable(value = "uploadCache", key = "'client:' + #id")
     public Client getClient(String id) {

@@ -1,28 +1,26 @@
 package com.example.LibraryManager.services;
 
+import lombok.RequiredArgsConstructor;
+
 import com.example.LibraryManager.entities.Session;
 import com.example.LibraryManager.entities.User;
 import com.example.LibraryManager.repositories.SessionRepository;
 import com.example.LibraryManager.requests.user.UserGoogleCreateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class SessionService {
-    @Autowired
-    SessionRepository sessionRepository;
+    private final SessionRepository sessionRepository;
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    JwtService jwtService;
+    private final JwtService jwtService;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public Session findById(String id) {
         return sessionRepository.findById(id)

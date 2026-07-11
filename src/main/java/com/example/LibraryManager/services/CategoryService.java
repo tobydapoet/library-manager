@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Category;
@@ -20,7 +22,7 @@ public class CategoryService {
 
     public Category findById(Integer id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
     }
 
     public List<Category> findByBookId(String bookId) {

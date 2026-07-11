@@ -3,6 +3,9 @@ package com.example.LibraryManager.services;
 import com.example.LibraryManager.entities.Client;
 import com.example.LibraryManager.entities.User;
 import com.example.LibraryManager.enums.Roles;
+import com.example.LibraryManager.exception.DuplicateResourceException;
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+import com.example.LibraryManager.exception.UnauthorizedException;
 import com.example.LibraryManager.repositories.ClientRepository;
 import com.example.LibraryManager.repositories.UserRepository;
 import com.example.LibraryManager.dtos.requests.UserCreateRequest;
@@ -11,7 +14,6 @@ import com.example.LibraryManager.dtos.requests.UserStaffCreateRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +38,12 @@ public class UserService {
     public User login(String email, String password) {
         User existingUser = userRepository.findByEmail(email);
         if (existingUser == null) {
-            throw new UsernameNotFoundException("Email not found!");
+            throw new UnauthorizedException("Invalid email or password");
         }
 
         boolean isMatchPassword = passwordEncoder.matches(password, existingUser.getPassword());
         if (!isMatchPassword) {
-            throw new UsernameNotFoundException("Wrong password!");
+            throw new UnauthorizedException("Invalid email or password");
         }
         return existingUser;
     }
@@ -54,16 +56,16 @@ public class UserService {
     @Cacheable(value = "uploadCache", key = "'user:' + #id")
     public User findById(String id) {
         return userRepository.findById(id).orElseThrow(()
-                -> new RuntimeException("User not found with id: " + id));
+                -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
     @CacheEvict(value = "uploadCache", key = "'user:all'")
     public User register(UserCreateRequest dto) {
         if (clientRepository.existsByPhone(dto.getPhone())) {
-            throw new RuntimeException("This phone is already used!");
+            throw new DuplicateResourceException("This phone is already used!");
         }
         if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new RuntimeException("This email is already used!");
+            throw new DuplicateResourceException("This email is already used!");
         }
         User user = new User();
         user.setEmail(dto.getEmail());
@@ -87,7 +89,7 @@ public class UserService {
         User user = new User();
         User existingUser = userRepository.findByEmail(req.getEmail());
         if (existingUser != null) {
-            throw new RuntimeException("This email is already used!");
+            throw new DuplicateResourceException("This email is already used!");
         }
         user.setEmail(req.getEmail());
         user.setRole(Roles.staff);
@@ -100,7 +102,7 @@ public class UserService {
     @Transactional
     public User createWithGoogle(UserGoogleCreateRequest req) {
         if (userRepository.existsByEmail(req.getEmail())) {
-            throw new RuntimeException("This email is already used!");
+            throw new DuplicateResourceException("This email is already used!");
         }
         User user = new User();
         user.setEmail(req.getEmail());

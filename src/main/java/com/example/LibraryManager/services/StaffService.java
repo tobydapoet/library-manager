@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Staff;
@@ -19,7 +21,7 @@ public class StaffService {
 
     public Staff getStaff(String id) {
         return staffRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Staff not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Staff not found"));
     }
 
     public Iterable<Staff> getStaffs() {

@@ -1,5 +1,8 @@
 package com.example.LibraryManager.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -10,6 +13,8 @@ import java.util.List;
 @Table(name = "client")
 @JsonIgnoreProperties({"borrowings", "reviews", "acquisitions", "bill"})
 
+@Getter
+@Setter
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -44,91 +49,25 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<Bill> bills;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    public String getAddress() {
-        return address;
-    }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
-    public String getAvatar_url() {
-        return avatar_url;
-    }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
-    }
 
-    public Date getDob() {
-        return dob;
-    }
 
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
 
-    public String getPhone() {
-        return phone;
-    }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
-    public List<Borrowing> getBorrowings() {
-        return borrowings;
-    }
 
-    public void setBorrowings(List<Borrowing> borrowings) {
-        this.borrowings = borrowings;
-    }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
 
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
 
-    public List<Acquisition> getAcquisitions() {
-        return acquisitions;
-    }
 
-    public void setAcquisitions(List<Acquisition> acquisitions) {
-        this.acquisitions = acquisitions;
-    }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public List<Bill> getBills() {
-        return bills;
-    }
 
-    public void setBills(List<Bill> bills) {
-        this.bills = bills;
-    }
 }

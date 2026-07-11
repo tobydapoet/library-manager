@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Book;
@@ -28,7 +30,7 @@ public class PurchaseService {
 
     public Purchase findById(String id) {
         return purchaseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Purchase not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Purchase not found"));
     }
 
     public Purchase create(PurchaseCreateRequest req) {

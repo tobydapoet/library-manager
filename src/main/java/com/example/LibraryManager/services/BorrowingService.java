@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Book;
@@ -25,7 +27,7 @@ public class BorrowingService {
 
     public Borrowing findById(String id) {
         return borrowingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can't find this borrowing"));
+                .orElseThrow(() -> new ResourceNotFoundException("Can't find this borrowing"));
     }
 
     public List<Borrowing> findByBillId(String id) {

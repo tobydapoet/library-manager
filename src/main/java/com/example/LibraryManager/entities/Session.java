@@ -1,5 +1,8 @@
 package com.example.LibraryManager.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -9,6 +12,8 @@ import java.util.Date;
 @Entity
 @Table(name = "session")
 
+@Getter
+@Setter
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,35 +30,11 @@ public class Session {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    public String getToken() {
-        return token;
-    }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }

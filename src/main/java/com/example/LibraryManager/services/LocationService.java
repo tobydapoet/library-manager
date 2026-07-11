@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Location;
@@ -23,7 +25,7 @@ public class LocationService {
     @Cacheable(value = "uploadCache", key = "'location:' + #id")
     public Location findById(Integer id) {
         return locationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can't find this location"));
+                .orElseThrow(() -> new ResourceNotFoundException("Can't find this location"));
     }
 
     @CacheEvict(value = "uploadCache", key = "'location:all'")

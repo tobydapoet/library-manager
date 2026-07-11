@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Acquisition;
@@ -29,7 +31,7 @@ public class AcquisitionService {
 
     public Acquisition findById(String id) {
         return acquisitionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Acquisition Not Found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Acquisition Not Found!"));
     }
 
     public Acquisition create(AcquisitionCreateRequest req) {

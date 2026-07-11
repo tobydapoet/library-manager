@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Supplier;
@@ -25,7 +27,7 @@ public class SupplierService {
 
     public Supplier findById(String id) {
         return supplierRepository.findById(id).orElseThrow(()
-                -> new RuntimeException("Supplier not found with id: " + id));
+                -> new ResourceNotFoundException("Supplier not found with id: " + id));
     }
 
     public List<Supplier> findByName(String name) {

@@ -1,5 +1,8 @@
 package com.example.LibraryManager.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -7,6 +10,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "message")
+@Getter
+@Setter
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,59 +38,17 @@ public class Message {
     @Column(nullable = false)
     private boolean isRead = false;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    public User getSender() {
-        return sender;
-    }
 
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
 
-    public User getReceiver() {
-        return receiver;
-    }
 
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
-    }
 
-    public String getContent() {
-        return content;
-    }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
 
-    public boolean isRead() {
-        return isRead;
-    }
 
-    public void setRead(boolean read) {
-        isRead = read;
-    }
 }

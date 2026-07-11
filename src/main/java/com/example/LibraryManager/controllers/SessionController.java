@@ -7,6 +7,7 @@ import com.example.LibraryManager.dtos.responses.AccessTokenResponse;
 import com.example.LibraryManager.dtos.responses.AuthResponse;
 import com.example.LibraryManager.dtos.responses.MessageStatusResponse;
 import com.example.LibraryManager.dtos.responses.SessionResponse;
+import com.example.LibraryManager.exception.BadRequestException;
 import com.example.LibraryManager.mappers.SessionMapper;
 import com.example.LibraryManager.services.SessionService;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class SessionController {
     @PostMapping("/refresh/{id}")
     public AccessTokenResponse refresh(@RequestHeader("Authorization") String refresh_token, @PathVariable String id) {
         if (refresh_token == null || !refresh_token.startsWith("Bearer ")) {
-            throw new RuntimeException("Missing or invalid Authorization header");
+            throw new BadRequestException("Missing or invalid Authorization header");
         }
 
         String refreshToken = refresh_token.substring(7);

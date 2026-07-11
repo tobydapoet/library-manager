@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 
@@ -23,13 +25,13 @@ public class ClientService {
     @Cacheable(value = "uploadCache", key = "'client:' + #id")
     public Client getClient(String id) {
         return clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
     }
 
     @CacheEvict(value = "uploadCache", key = "'client:' + #id")
     public Client update(String id, ClientUpdateRequest req) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
 
         if (req.getAddress() != null) {
             client.setAddress(req.getAddress());

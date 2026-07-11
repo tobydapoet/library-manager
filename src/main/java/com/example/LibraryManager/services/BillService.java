@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.*;
@@ -20,7 +22,7 @@ public class BillService {
 
     public Bill findById(String id) {
         return billRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can't find this bill"));
+                .orElseThrow(() -> new ResourceNotFoundException("Can't find this bill"));
     }
 
     public Page<Bill> findAll(int page, int size) {

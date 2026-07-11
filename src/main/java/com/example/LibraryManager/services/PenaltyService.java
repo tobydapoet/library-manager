@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Borrowing;
@@ -31,7 +33,7 @@ public class PenaltyService {
 
     public Penalty findById(String id) {
         return penaltyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Penalty Not Found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Penalty Not Found"));
     }
 
     public Penalty create(PenaltyCreateRequest req) {

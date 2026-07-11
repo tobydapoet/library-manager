@@ -1,5 +1,8 @@
 package com.example.LibraryManager.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -7,6 +10,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "borrowing")
+@Getter
+@Setter
 public class Borrowing {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -40,76 +45,22 @@ public class Borrowing {
     @JoinColumn(name = "bill_id", nullable = false)
     private Bill bill;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
-    }
 
 
-    public Penalty getPenalty() {
-        return penalty;
-    }
 
-    public void setPenalty(Penalty penalty) {
-        this.penalty = penalty;
-    }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 
-    public Bill getBill() {
-        return bill;
-    }
 
-    public void setBill(Bill bill) {
-        this.bill = bill;
-    }
 
-    public int getQuantity() {
-        return quantity;
-    }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+
+
+
+
+
+
+
+
+
 }

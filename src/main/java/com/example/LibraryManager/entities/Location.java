@@ -1,5 +1,8 @@
 package com.example.LibraryManager.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -8,6 +11,8 @@ import java.util.List;
 @Entity
 @Table(name = "location")
 @JsonIgnoreProperties({"books"})
+@Getter
+@Setter
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,27 +24,9 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<Book> books;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
-    public Integer getFloor() {
-        return floor;
-    }
 
-    public void setFloor(Integer floor) {
-        this.floor = floor;
-    }
 
-    public List<Book> getBooks() {
-        return books;
-    }
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
 }

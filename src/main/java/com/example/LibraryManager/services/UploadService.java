@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.BadRequestException;
+import com.example.LibraryManager.exception.FileStorageException;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.stereotype.Service;
@@ -22,14 +24,14 @@ public class UploadService {
             Map upLoadRes = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap("folder", folder, "public_id", file.getOriginalFilename()));
             return upLoadRes.get("secure_url").toString();
         } catch (IOException e) {
-            throw new RuntimeException("Upload failed", e);
+            throw new FileStorageException("Upload failed", e);
         }
     }
 
     public void delete(String url) {
         String[] parts = url.split("/upload/");
         if (parts.length < 2)
-            throw new RuntimeException("Invalid Cloudinary URL");
+            throw new BadRequestException("Invalid Cloudinary URL");
 
         String path = parts[1];
 
@@ -46,7 +48,7 @@ public class UploadService {
         try {
             cloudinary.uploader().destroy(path, ObjectUtils.emptyMap());
         } catch (IOException e) {
-            throw new RuntimeException("Delete file error", e);
+            throw new FileStorageException("Delete file error", e);
         }
     }
 }

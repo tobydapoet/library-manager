@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.BillImport;
@@ -22,7 +24,7 @@ public class BillImportService {
 
     public BillImport findById(String id) {
         return billImportRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can't find this bill"));
+                .orElseThrow(() -> new ResourceNotFoundException("Can't find this bill"));
     }
 
     public Page<BillImport> findAll(int page, int size) {

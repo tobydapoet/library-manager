@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Message;
@@ -22,7 +24,7 @@ public class MessageService {
 
     public Message findById(String id) {
         return messageRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Message not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Message not found"));
     }
 
     @Cacheable(value = "uploadCache", key = "'message:' + #userId")

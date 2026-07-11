@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Book;
@@ -34,7 +36,7 @@ public class BookService {
     @Cacheable(value = "uploadCache", key = "'book:' + #id")
     public Book findById(String id) {
         return bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can't find this book!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Can't find this book!"));
     }
 
     public Page<Book> searchBook(String type, String keyword, int page, int size) {

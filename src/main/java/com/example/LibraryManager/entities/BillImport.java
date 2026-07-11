@@ -1,5 +1,8 @@
 package com.example.LibraryManager.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -9,6 +12,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "bill_import")
+@Getter
+@Setter
 public class BillImport {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -31,51 +36,15 @@ public class BillImport {
     @Column(name = "created_at")
     private Date createdAt;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    public Supplier getSupplier() {
-        return supplier;
-    }
 
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
 
-    public Integer getTotal() {
-        return total;
-    }
 
-    public void setTotal(Integer total) {
-        this.total = total;
-    }
 
-    public boolean isPaid() {
-        return isPaid;
-    }
 
-    public void setPaid(boolean paid) {
-        isPaid = paid;
-    }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 
-    public List<Purchase> getPurchases() {
-        return purchases;
-    }
 
-    public void setPurchases(List<Purchase> purchases) {
-        this.purchases = purchases;
-    }
 }

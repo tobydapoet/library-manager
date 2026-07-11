@@ -1,5 +1,7 @@
 package com.example.LibraryManager.services;
 
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.LibraryManager.entities.Book;
@@ -32,7 +34,7 @@ public class ReviewService {
 
     public Review findById(String id) {
         return reviewRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Review Not Found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Review Not Found!"));
     }
 
     @CacheEvict(value = "uploadCache", key = "'review: ' +#req.getBookId")

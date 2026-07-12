@@ -1,15 +1,13 @@
 package com.example.LibraryManager.services;
 
-import com.example.LibraryManager.exception.ResourceNotFoundException;
-import com.example.LibraryManager.exception.DuplicateResourceException;
-
-import lombok.RequiredArgsConstructor;
-
+import com.example.LibraryManager.dtos.requests.ReviewCreateRequest;
 import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.Client;
 import com.example.LibraryManager.entities.Review;
+import com.example.LibraryManager.exception.DuplicateResourceException;
+import com.example.LibraryManager.exception.ResourceNotFoundException;
 import com.example.LibraryManager.repositories.ReviewRepository;
-import com.example.LibraryManager.dtos.requests.ReviewCreateRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -31,7 +29,6 @@ public class ReviewService {
         Pageable pageable = PageRequest.of(page, size);
         return reviewRepository.findByBook_Id(bookId, pageable);
     }
-
 
     public Review findById(String id) {
         return reviewRepository.findById(id)

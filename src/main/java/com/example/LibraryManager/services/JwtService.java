@@ -19,12 +19,13 @@ import java.util.List;
 
 @Service
 public class JwtService {
-    @Value("${JWT_SECRET}")
-    private String SECRET;
-
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    private final Key key;
     private final long accessTokenValidity = 1000 * 60 * 15;
     private final long refreshTokenValidity = 30L * 24 * 3600 * 1000;
+
+    public JwtService(@Value("${JWT_SECRET}") String secret) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
     public String generateAccessToken(Session session) {
         Roles role = session.getUser().getRole();

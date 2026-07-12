@@ -1,13 +1,11 @@
 package com.example.LibraryManager.services;
 
-import com.example.LibraryManager.exception.ResourceNotFoundException;
-
-import lombok.RequiredArgsConstructor;
-
-import com.example.LibraryManager.entities.Supplier;
-import com.example.LibraryManager.repositories.SupplierRepository;
 import com.example.LibraryManager.dtos.requests.SupplierCreateRequest;
 import com.example.LibraryManager.dtos.requests.SupplierUpdateRequest;
+import com.example.LibraryManager.entities.Supplier;
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+import com.example.LibraryManager.repositories.SupplierRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -21,13 +19,12 @@ public class SupplierService {
 
     @Cacheable(value = "uploadCache", key = "'supplier:all'")
     public Iterable<Supplier> findAll() {
-        System.out.println("Querying DB...");
         return supplierRepository.findByIsDeletedFalse();
     }
 
     public Supplier findById(String id) {
         return supplierRepository.findById(id).orElseThrow(()
-                -> new ResourceNotFoundException("Supplier not found with id: " + id));
+                -> new ResourceNotFoundException("Supplier not found"));
     }
 
     public List<Supplier> findByName(String name) {

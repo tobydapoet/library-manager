@@ -1,13 +1,12 @@
 package com.example.LibraryManager.services;
 
-import lombok.RequiredArgsConstructor;
-
+import com.example.LibraryManager.dtos.requests.UserGoogleCreateRequest;
 import com.example.LibraryManager.entities.Session;
 import com.example.LibraryManager.entities.User;
 import com.example.LibraryManager.exception.ResourceNotFoundException;
 import com.example.LibraryManager.exception.UnauthorizedException;
 import com.example.LibraryManager.repositories.SessionRepository;
-import com.example.LibraryManager.dtos.requests.UserGoogleCreateRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -23,7 +22,7 @@ public class SessionService {
 
     public Session findById(String id) {
         return sessionRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Session not found"));
     }
 
     public Map<String, String> login(String email, String password) {

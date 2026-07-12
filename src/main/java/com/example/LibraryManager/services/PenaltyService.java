@@ -3,8 +3,8 @@ package com.example.LibraryManager.services;
 import com.example.LibraryManager.dtos.requests.PenaltyCreateRequest;
 import com.example.LibraryManager.entities.Borrowing;
 import com.example.LibraryManager.entities.Penalty;
-import com.example.LibraryManager.exception.ResourceNotFoundException;
 import com.example.LibraryManager.exception.BadRequestException;
+import com.example.LibraryManager.exception.ResourceNotFoundException;
 import com.example.LibraryManager.repositories.PenaltyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,6 @@ public class PenaltyService {
 
     public List<Penalty> findByBillId(String billId) {
         return penaltyRepository.findByBill_Id(billId);
-    }
-
-    public List<Penalty> findByBorrowingId(String borrowingId) {
-        return penaltyRepository.findByBorrowing_Id(borrowingId);
     }
 
     public Penalty findById(String id) {

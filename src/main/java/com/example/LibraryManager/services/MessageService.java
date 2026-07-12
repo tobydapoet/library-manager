@@ -29,7 +29,7 @@ public class MessageService {
 
     @Cacheable(value = "uploadCache", key = "'message:' + #userId")
     public List<Message> findByUserid(String userId) {
-        return messageRepository.findBySender_IdOrReceiver_IdOrderByCreatedAtDesc(userId, userId);
+        return messageRepository.findConversationHistory(userId);
     }
 
     @Caching(evict = {
@@ -46,26 +46,21 @@ public class MessageService {
         return messageRepository.save(message);
     }
 
-    @Caching(evict = {
-            @CacheEvict(value = "uploadCache", key = "'message:' + #req.sender_id"),
-            @CacheEvict(value = "uploadCache", key = "'message:' + #req.receiver_id")
-    })
+    @CacheEvict(value = "uploadCache", allEntries = true)
     public Message update(String id, String content) {
         Message message = findById(id);
         message.setContent(content);
         return messageRepository.save(message);
     }
 
-    @Caching(evict = {
-            @CacheEvict(value = "uploadCache", key = "'message:' + #req.sender_id"),
-            @CacheEvict(value = "uploadCache", key = "'message:' + #req.receiver_id")
-    })
+    @CacheEvict(value = "uploadCache", allEntries = true)
     public Message softDelete(String id) {
         Message message = findById(id);
         message.setDeleted(true);
         return messageRepository.save(message);
     }
 
+    @CacheEvict(value = "uploadCache", allEntries = true)
     public Message isRead(String id) {
         Message message = findById(id);
         message.setRead(true);

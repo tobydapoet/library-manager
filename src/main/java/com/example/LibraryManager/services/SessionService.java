@@ -8,7 +8,6 @@ import com.example.LibraryManager.exception.ResourceNotFoundException;
 import com.example.LibraryManager.exception.UnauthorizedException;
 import com.example.LibraryManager.repositories.SessionRepository;
 import com.example.LibraryManager.dtos.requests.UserGoogleCreateRequest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -21,8 +20,6 @@ public class SessionService {
     private final UserService userService;
 
     private final JwtService jwtService;
-
-    private final PasswordEncoder passwordEncoder;
 
     public Session findById(String id) {
         return sessionRepository.findById(id)

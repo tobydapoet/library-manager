@@ -1,6 +1,8 @@
 package com.example.LibraryManager.services;
 
 import com.example.LibraryManager.exception.ResourceNotFoundException;
+import com.example.LibraryManager.exception.BadRequestException;
+import com.example.LibraryManager.enums.BookStatus;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -27,7 +30,7 @@ public class BookService {
 
     private final LocationService locationService;
 
-    @Cacheable(value = "uploadCache", key = "'book:all'")
+    @Cacheable(value = "uploadCache", key = "'book:all:' + #page + ':' + #size")
     public Page<Book> findAll(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return bookRepository.findAll(pageable);
@@ -50,7 +53,7 @@ public class BookService {
         }
     }
 
-    @Cacheable(value = "uploadCache", key = "'book:all'")
+    @CacheEvict(value = "uploadCache", allEntries = true)
     public Book create(BookCreateRequest req) {
         Book book = new Book();
         book.setTitle(req.getTitle());
@@ -89,6 +92,12 @@ public class BookService {
             book.setSell_price(req.getSell_price());
         }
         if (req.getStatus() != null) book.setStatus(req.getStatus());
+        if (req.getQuantity() != null) {
+            if (req.getQuantity() < 0) {
+                throw new BadRequestException("Book quantity cannot be negative");
+            }
+            book.setQuantity(req.getQuantity());
+        }
 
         MultipartFile file = req.getFile();
         if (file != null && !file.isEmpty()) {
@@ -100,6 +109,44 @@ public class BookService {
         }
 
         return bookRepository.save(book);
+    }
+
+    @Transactional
+    @CacheEvict(value = "uploadCache", allEntries = true)
+    public Book decreaseStock(String bookId, int quantity) {
+        validateQuantity(quantity);
+        Book book = findByIdForUpdate(bookId);
+        if (book.getQuantity() < quantity) {
+            throw new BadRequestException("Insufficient stock for book: " + bookId);
+        }
+        book.setQuantity(book.getQuantity() - quantity);
+        if (book.getQuantity() == 0 && book.getStatus() == BookStatus.available) {
+            book.setStatus(BookStatus.borrowed);
+        }
+        return bookRepository.save(book);
+    }
+
+    @Transactional
+    @CacheEvict(value = "uploadCache", allEntries = true)
+    public Book increaseStock(String bookId, int quantity) {
+        validateQuantity(quantity);
+        Book book = findByIdForUpdate(bookId);
+        book.setQuantity(book.getQuantity() + quantity);
+        if (book.getStatus() == BookStatus.borrowed) {
+            book.setStatus(BookStatus.available);
+        }
+        return bookRepository.save(book);
+    }
+
+    private Book findByIdForUpdate(String id) {
+        return bookRepository.findByIdForUpdate(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + id));
+    }
+
+    private void validateQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new BadRequestException("Quantity must be greater than zero");
+        }
     }
 
     public Page<Book> getBookByCategory(String category_name, int page, int size) {

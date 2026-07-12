@@ -1,6 +1,7 @@
 package com.example.LibraryManager.services;
 
 import com.example.LibraryManager.exception.ResourceNotFoundException;
+import com.example.LibraryManager.exception.DuplicateResourceException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,18 +38,22 @@ public class ReviewService {
                 .orElseThrow(() -> new ResourceNotFoundException("Review Not Found!"));
     }
 
-    @CacheEvict(value = "uploadCache", key = "'review: ' +#req.getBookId")
+    @CacheEvict(value = "uploadCache", allEntries = true)
     public Review create(ReviewCreateRequest req) {
+        if (reviewRepository.existsByClientAndBook(req.getClientId(), req.getBookId())) {
+            throw new DuplicateResourceException("Client has already reviewed this book");
+        }
         Review review = new Review();
         review.setComment(req.getComment());
         Client client = clientService.getClient(req.getClientId());
         review.setClient(client);
         Book book = bookService.findById(req.getBookId());
         review.setBook(book);
+        review.setRating(req.getRating());
         return reviewRepository.save(review);
     }
 
-    @CacheEvict(value = "uploadCache", key = "'review:' + #review.book.id")
+    @CacheEvict(value = "uploadCache", allEntries = true)
     public void delete(String reviewId) {
         Review review = findById(reviewId);
         reviewRepository.delete(review);

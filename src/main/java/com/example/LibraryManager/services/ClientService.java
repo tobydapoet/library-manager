@@ -39,7 +39,7 @@ public class ClientService {
         if (req.getName() != null) {
             client.setName(req.getName());
         }
-        if (req.getFile() != null) {
+        if (req.getFile() != null && !req.getFile().isEmpty()) {
             if (client.getAvatar_url() != null) {
                 uploadService.delete(client.getAvatar_url());
             }
@@ -51,10 +51,6 @@ public class ClientService {
         }
         if (req.getPhone() != null) {
             client.setPhone(req.getPhone());
-        }
-        if (req.getFile() != null) {
-            String savedFile = uploadService.upload(req.getFile(), "client");
-            client.setAvatar_url(savedFile);
         }
         Client savedClient = clientRepository.save(client);
         return getClient(savedClient.getId());
@@ -68,7 +64,6 @@ public class ClientService {
 
     public Page<Client> searchClients(String keyword, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return clientRepository
-                .findByPhoneContainingIgnoreCaseOrNameContainingIgnoreCaseOrUserEmailContainingIgnoreCase(keyword, keyword, keyword, pageable);
+        return clientRepository.search(keyword, pageable);
     }
 }

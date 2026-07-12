@@ -1,12 +1,11 @@
 package com.example.LibraryManager.services;
 
-import lombok.RequiredArgsConstructor;
-
+import com.example.LibraryManager.dtos.requests.BookCategoryRequest;
 import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.BookCategory;
 import com.example.LibraryManager.entities.Category;
 import com.example.LibraryManager.repositories.BookCategoryRepository;
-import com.example.LibraryManager.dtos.requests.BookCategoryRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,6 +29,4 @@ public class BookCategoryService {
     public void deleteById(int id) {
         bookCategoryRepository.deleteById(id);
     }
-
-
 }

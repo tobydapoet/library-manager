@@ -8,9 +8,9 @@ import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.Borrowing;
 import com.example.LibraryManager.entities.Client;
 import com.example.LibraryManager.repositories.BorrowingRepository;
-import com.example.LibraryManager.dtos.requests.BookUpdateRequest;
 import com.example.LibraryManager.dtos.requests.BorrowingCreateRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,6 +34,7 @@ public class BorrowingService {
         return borrowingRepository.findByBill_Id(id);
     }
 
+    @Transactional
     public Borrowing create(BorrowingCreateRequest req) {
         Borrowing borrowing = new Borrowing();
         Integer quantity = 1;
@@ -45,18 +46,23 @@ public class BorrowingService {
             borrowing.setQuantity(req.getQuantity());
             quantity = req.getQuantity();
         }
-        borrowing.setBill(billService.findById(req.getBill_id()));
+        borrowing.setBill(billService.ensureMutableForClient(req.getBill_id(), req.getClient_id()));
         borrowing.setPrice(quantity * book.getBorrow_price());
         borrowing.setExpiryDate(req.getExpiryDate());
+        bookService.decreaseStock(book.getId(), quantity);
         Borrowing savedBorrowing = borrowingRepository.save(borrowing);
-        BookUpdateRequest bookUpdateRequest = new BookUpdateRequest();
-        bookUpdateRequest.setQuantity(book.getQuantity() - savedBorrowing.getQuantity());
-        bookService.update(req.getBook_id(), bookUpdateRequest);
+        billService.calculateBillTotal(req.getBill_id());
         return savedBorrowing;
     }
 
+    @Transactional
     public void deleteById(String id) {
-        borrowingRepository.deleteById(id);
+        Borrowing borrowing = findById(id);
+        String billId = borrowing.getBill().getId();
+        billService.ensureMutable(billId);
+        borrowingRepository.delete(borrowing);
+        bookService.increaseStock(borrowing.getBook().getId(), borrowing.getQuantity());
+        billService.calculateBillTotal(billId);
     }
 
 }

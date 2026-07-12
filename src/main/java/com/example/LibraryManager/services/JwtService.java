@@ -40,8 +40,7 @@ public class JwtService {
                     .getPosition()
                     .name().toUpperCase());
         }
-
-
+        
         return builder
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + accessTokenValidity))

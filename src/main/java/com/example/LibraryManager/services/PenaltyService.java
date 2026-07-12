@@ -1,14 +1,14 @@
 package com.example.LibraryManager.services;
 
-import com.example.LibraryManager.exception.ResourceNotFoundException;
-
-import lombok.RequiredArgsConstructor;
-
+import com.example.LibraryManager.dtos.requests.PenaltyCreateRequest;
 import com.example.LibraryManager.entities.Borrowing;
 import com.example.LibraryManager.entities.Penalty;
+import com.example.LibraryManager.exception.ResourceNotFoundException;
+import com.example.LibraryManager.exception.BadRequestException;
 import com.example.LibraryManager.repositories.PenaltyRepository;
-import com.example.LibraryManager.dtos.requests.PenaltyCreateRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,8 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PenaltyService {
     private final PenaltyRepository penaltyRepository;
-
-    private final ClientService clientService;
 
     private final BorrowingService borrowingService;
 
@@ -36,6 +34,7 @@ public class PenaltyService {
                 .orElseThrow(() -> new ResourceNotFoundException("Penalty Not Found"));
     }
 
+    @Transactional
     public Penalty create(PenaltyCreateRequest req) {
         Penalty penalty = new Penalty();
         Integer quantity = 1;
@@ -43,15 +42,26 @@ public class PenaltyService {
             penalty.setQuality(req.getQuantity());
             quantity = req.getQuantity();
         }
+        penalty.setQuality(quantity);
         Borrowing borrowing = borrowingService.findById(req.getBorrowing_id());
+        if (borrowing.getBill() == null || !borrowing.getBill().getId().equals(req.getBill_id())) {
+            throw new BadRequestException("Borrowing does not belong to the selected bill");
+        }
         penalty.setPrice(quantity * borrowing.getBook().getSell_price());
 
         penalty.setBorrowing(borrowing);
-        penalty.setBill(billService.findById(req.getBill_id()));
-        return penaltyRepository.save(penalty);
+        penalty.setBill(billService.ensureMutable(req.getBill_id()));
+        Penalty savedPenalty = penaltyRepository.save(penalty);
+        billService.calculateBillTotal(req.getBill_id());
+        return savedPenalty;
     }
 
+    @Transactional
     public void deleteById(String id) {
-        penaltyRepository.deleteById(id);
+        Penalty penalty = findById(id);
+        String billId = penalty.getBill().getId();
+        billService.ensureMutable(billId);
+        penaltyRepository.delete(penalty);
+        billService.calculateBillTotal(billId);
     }
 }

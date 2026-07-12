@@ -30,7 +30,7 @@ public class StaffService {
 
     @Cacheable
     public Iterable<Staff> searchStaff(String keyword) {
-        return staffRepository.findByPhoneContainingIgnoreCaseOrNameContainingIgnoreCaseOrUserEmailContainingIgnoreCase(keyword, keyword, keyword);
+        return staffRepository.search(keyword);
     }
 
     public Staff create(StaffCreateRequest req, User user) {
@@ -52,15 +52,15 @@ public class StaffService {
         if (req.getName() != null) staff.setName(req.getName());
         if (req.getPhone() != null) staff.setPhone(req.getPhone());
         if (req.getSalary() != null) staff.setSalary(req.getSalary());
-        if (req.getPhone() != null) staff.setPhone(req.getPhone());
-        if (req.getFile() != null) {
+        if (req.getPosition() != null) staff.setPosition(req.getPosition());
+        if (req.getFile() != null && !req.getFile().isEmpty()) {
             if (staff.getAvatar_url() != null) {
                 uploadService.delete(staff.getAvatar_url());
             }
             String uploadedFile = uploadService.upload(req.getFile(), "staff");
             staff.setAvatar_url(uploadedFile);
         }
-        if (req.isActive()) staff.setActive(req.isActive());
+        if (req.getActive() != null) staff.setActive(req.getActive());
         return staffRepository.save(staff);
     }
 }

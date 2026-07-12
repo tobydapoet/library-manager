@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 import com.example.LibraryManager.entities.Book;
 import com.example.LibraryManager.entities.Purchase;
 import com.example.LibraryManager.repositories.PurchaseRepository;
-import com.example.LibraryManager.dtos.requests.BookUpdateRequest;
 import com.example.LibraryManager.dtos.requests.PurchaseCreateRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,29 +33,36 @@ public class PurchaseService {
                 .orElseThrow(() -> new ResourceNotFoundException("Purchase not found"));
     }
 
+    @Transactional
     public Purchase create(PurchaseCreateRequest req) {
         Purchase purchase = new Purchase();
         Integer quantity = 1;
         purchase.setSupplier(supplierService.findById(req.getSupplier_id()));
 
         if (req.getQuantity() != null) {
-            purchase.setQuantity(req.getQuantity());
             quantity = req.getQuantity();
         }
+        purchase.setQuantity(quantity);
         Book book = bookService.findById(req.getBook_id());
 
         purchase.setBook(book);
         purchase.setPrice(quantity * book.getImport_price());
-        purchase.setBillImport(billImportService.findById(req.getBillImport_id()));
+        purchase.setBillImport(billImportService.ensureMutableForSupplier(
+                req.getBillImport_id(), req.getSupplier_id()));
+        bookService.increaseStock(book.getId(), quantity);
         Purchase savedPurchase = purchaseRepository.save(purchase);
-        BookUpdateRequest bookUpdateRequest = new BookUpdateRequest();
-        bookUpdateRequest.setQuantity(book.getQuantity() + quantity);
-        bookService.update(req.getBook_id(), bookUpdateRequest);
+        billImportService.calculateBillImportTotal(req.getBillImport_id());
         return savedPurchase;
     }
 
 
+    @Transactional
     public void deleteById(String id) {
-        purchaseRepository.deleteById(id);
+        Purchase purchase = findById(id);
+        String billImportId = purchase.getBillImport().getId();
+        billImportService.ensureMutable(billImportId);
+        bookService.decreaseStock(purchase.getBook().getId(), purchase.getQuantity());
+        purchaseRepository.delete(purchase);
+        billImportService.calculateBillImportTotal(billImportId);
     }
 }

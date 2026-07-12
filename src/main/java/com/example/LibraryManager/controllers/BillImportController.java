@@ -53,6 +53,18 @@ public class BillImportController {
     }
 
     @PreAuthorize("hasRole('STAFF')")
+    @PatchMapping("/{id}/pay")
+    public BillImportResponse markAsPaid(@PathVariable String id) {
+        return billImportMapper.toResponse(billImportService.markAsPaid(id));
+    }
+
+    @PreAuthorize("hasRole('STAFF')")
+    @PatchMapping("/{id}/reopen")
+    public BillImportResponse markAsUnpaid(@PathVariable String id) {
+        return billImportMapper.toResponse(billImportService.markAsUnpaid(id));
+    }
+
+    @PreAuthorize("hasRole('STAFF')")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         billImportService.deleteById(id);

@@ -56,6 +56,18 @@ public class BillController {
     }
 
     @PreAuthorize("hasRole('STAFF')")
+    @PatchMapping("/{id}/pay")
+    public BillResponse markAsPaid(@PathVariable String id) {
+        return billMapper.toResponse(billService.markAsPaid(id));
+    }
+
+    @PreAuthorize("hasRole('STAFF')")
+    @PatchMapping("/{id}/reopen")
+    public BillResponse markAsUnpaid(@PathVariable String id) {
+        return billMapper.toResponse(billService.markAsUnpaid(id));
+    }
+
+    @PreAuthorize("hasRole('STAFF')")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         billService.deleteById(id);

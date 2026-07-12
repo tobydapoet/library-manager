@@ -14,7 +14,7 @@ public class StaffUpdateRequest {
     private String phone;
     private StaffPosition position;
     private Integer salary;
-    private boolean isActive;
+    private Boolean active;
     private String avatar_url;
     private MultipartFile file;
 
